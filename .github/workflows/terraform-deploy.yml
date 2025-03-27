@@ -3,7 +3,7 @@ name: Terraform Deploy
 on:
   push:
     branches:
-      - develop # Adjust based on your branching strategy
+      - feature/ecs-pipeline # Adjust based on your branching strategy
   pull_request:
 
 permissions:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and Tag Node.js Docker Image
         run: |
-          docker build -t $ECR_REPOSITORY:$IMAGE_TAG -f ../nodejs_app/Dockerfile 
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG -f nodejs_app/Dockerfile nodejs_app
           pwd
           docker tag $ECR_REPOSITORY:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
 
