@@ -33,9 +33,9 @@ variable "db_password" {
   description = "Database password"
 }
 
-variable "db_name" {
-  description = "Database password"
-}
+# variable "db_name" {
+#   description = "Database password"
+# }
 variable "bastion_ssh_key" {
   description = "Public SSH key for the bastion host"
   type        = string
