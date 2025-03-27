@@ -7,3 +7,4 @@
 /my-key-pair.pub
 /new-key.pem
 /terraform.tfstate.backup
+/terraform.tfvars

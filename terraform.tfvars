@@ -16,6 +16,7 @@
 db_username   = "admin"
 db_password   = "SecurePass123!"
 db_name       = "wordpress_db"
+# aws_account_id = ""
 
 # # Networking
 # vpc_id           = "vpc-xxxxxxxx"

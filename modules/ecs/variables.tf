@@ -16,8 +16,22 @@ variable "task_memory" {
 }
 
 variable "db_endpoint" {}  
-variable "db_username" {}  
-variable "db_password" {}  
+  
+variable "db_username" {
+  description = "Database username from GitHub Secrets"
+  default     = ""
+}
+variable "db_password" {
+  description = "Database password from GitHub Secrets"
+  default     = ""
+}
+
+variable "aws_account_id" {
+  description = "AWS Account ID from GitHub Secrets"
+  default     = ""
+  type        = string
+}
+ 
 
 variable "aws_lb_target_group" {
   description = "Target group ARN for ALB"
@@ -31,10 +45,11 @@ variable "http_listener_arn" {
   description = "ARN of the ALB HTTP listener"
   type        = string
 }
-variable "aws_account_id" {
-  default = "831926591252"
-   type        = string
-}
+
 variable "alb_sg_id" {}
 
 variable "nodejs_tg_arn" {}
+variable "image_url" {
+  description = "ECR Image URL for Node.js app"
+  type        = string
+}

@@ -144,7 +144,7 @@ resource "aws_ecs_task_definition" "nodejs_task" {
   container_definitions = jsonencode([
     {
       name      = "nodejs-app"
-      image     = "${var.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/test/nodejs:latest"
+      image     = var.image_url
       cpu       = 256
       memory    = 512
       essential = true
