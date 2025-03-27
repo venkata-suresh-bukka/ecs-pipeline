@@ -1,0 +1,11 @@
+/.terraform
+/.terraform.lock.hcl
+/cerfile.csr
+/cert.crt
+/keyfile.key
+/my-key-pair.pub
+/new-key.pem
+/terraform.tfstate
+/terraform.tfstate.backup
+/terraform.tfvars
+/nodejs_app/node_modules
