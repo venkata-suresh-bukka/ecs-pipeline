@@ -57,18 +57,10 @@ jobs:
         run: terraform init
         working-directory: .
 
-      - name: Terraform Validate
-        run: terraform validate
-        working-directory: .
-
-      - name: Terraform Plan
+      - name: Terraform Destroy
         run: |
-          terraform -chdir=. plan -out=tfplan \
-             -var="image_url=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG" \
+          terraform destroy -auto-approve \
              -var="bastion_ssh_key=$TF_VAR_bastion_ssh_key" \
              -var="db_username=$TF_VAR_db_username" \
              -var="db_password=$TF_VAR_db_password" 
-
-      - name: Terraform Apply (Deploy Infra with Latest Image)
-        run: terraform apply -auto-approve tfplan
         working-directory: .
