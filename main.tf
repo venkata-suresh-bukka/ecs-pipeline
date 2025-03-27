@@ -6,6 +6,7 @@ module "network" {
   azs              = var.azs
   db_sg_id        = module.database.db_sg_id
   security_group_id = module.network.bastion_sg_id 
+  bastion_ssh_key  = var.bastion_ssh_key  
 }
 module "database" {
   source           = "./modules/database"
@@ -36,5 +37,6 @@ module "ecs" {
   http_listener_arn    = module.alb.http_listener_arn 
   alb_sg_id = module.alb.alb_sg_id
   nodejs_tg_arn  = module.alb.nodejs_tg_arn
-
+  image_url            = var.image_url
+ 
 }

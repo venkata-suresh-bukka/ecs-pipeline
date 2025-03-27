@@ -13,8 +13,8 @@
 # docker_secret_arn   = "arn:aws:secretsmanager:us-east-1:831926591252:secret:dockerhub_details-XML1GI"
 
 # Database Configuration
-db_username   = "admin"
-db_password   = "SecurePass123!"
+db_username   = ""
+db_password   = ""
 db_name       = "wordpress_db"
 # aws_account_id = ""
 
