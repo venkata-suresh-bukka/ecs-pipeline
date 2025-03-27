@@ -21,6 +21,7 @@ jobs:
       IMAGE_TAG: ${{ github.run_number }}
       TF_VAR_db_username: ${{ secrets.TF_VAR_db_username }}
       TF_VAR_db_password: ${{ secrets.TF_VAR_db_password }}
+      TF_VAR_bastion_ssh_key: ${{ secrets.BASTION_SSH_PUBLIC_KEY }}
 
     steps:
       - name: Checkout Repository
@@ -61,8 +62,9 @@ jobs:
         working-directory: .
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan -var="image_url=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
-        working-directory: .
+        run: terraform plan -out=tfplan \
+             -var="image_url=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG" \
+             -var="bastion_ssh_key=$TF_VAR_bastion_ssh_key"
 
       - name: Terraform Apply (Deploy Infra with Latest Image)
         run: terraform apply -auto-approve tfplan
