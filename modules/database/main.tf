@@ -38,7 +38,7 @@ resource "aws_db_instance" "rds" {
 }
 
 resource "aws_secretsmanager_secret" "db_secret" {
-  name = "wordpress-db-secret9"
+  name = "wordpress-db-secret10"
 }
 
 resource "aws_secretsmanager_secret_version" "db_secret_version" {
