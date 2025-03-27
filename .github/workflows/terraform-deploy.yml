@@ -65,6 +65,7 @@ jobs:
         run: terraform plan -out=tfplan \
              -var="image_url=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG" \
              -var="bastion_ssh_key=$TF_VAR_bastion_ssh_key"
+        working-directory: .
 
       - name: Terraform Apply (Deploy Infra with Latest Image)
         run: terraform apply -auto-approve tfplan
