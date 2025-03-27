@@ -27,3 +27,7 @@ variable "security_group_id" {
   type        = string
 }
 variable "db_sg_id" {}
+variable "bastion_ssh_key" {
+  description = "Public key for Bastion host SSH access"
+  type        = string
+}

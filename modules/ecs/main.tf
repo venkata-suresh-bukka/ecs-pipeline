@@ -144,7 +144,7 @@ resource "aws_ecs_task_definition" "nodejs_task" {
   container_definitions = jsonencode([
     {
       name      = "nodejs-app"
-      image     = "${var.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/test/nodejs:latest"
+      image     = var.image_url
       cpu       = 256
       memory    = 512
       essential = true
@@ -173,7 +173,7 @@ resource "aws_ecs_service" "wordpress_service" {
   cluster        = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.wordpress_task.arn
   launch_type     = "FARGATE"
-  desired_count   = 2
+  desired_count   = 1
 
   network_configuration {
     subnets          = var.private_subnets
@@ -196,7 +196,14 @@ resource "aws_ecs_service" "wordpress_service" {
 resource "aws_ecs_service" "nodejs_service" {
   name            = "nodejs-service"
   cluster         = aws_ecs_cluster.ecs_cluster.id
+  task_definition = aws_ecs_task_definition.nodejs_task.arn
   launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = var.private_subnets
+    security_groups  = [aws_security_group.ecs_sg.id]
+    assign_public_ip = false
+  }
 
   load_balancer {
     target_group_arn = var.nodejs_tg_arn  
@@ -204,7 +211,7 @@ resource "aws_ecs_service" "nodejs_service" {
     container_port   = 3000
   }
 
-  desired_count = 2
+  desired_count = 1
 }
 
 

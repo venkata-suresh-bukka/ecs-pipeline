@@ -36,6 +36,15 @@ variable "db_password" {
 variable "db_name" {
   description = "Database password"
 }
+variable "bastion_ssh_key" {
+  description = "Public SSH key for the bastion host"
+  type        = string
+}
+variable "image_url" {
+  description = "ECR Image URL for the Node.js application"
+  type        = string
+}
+
 # variable "docker_secret_arn" {
   
 # }

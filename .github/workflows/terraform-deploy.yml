@@ -3,26 +3,48 @@ name: Terraform Deploy
 on:
   push:
     branches:
-      - main  # Change if using a different branch
+      - develop # Adjust based on your branching strategy
   pull_request:
 
 permissions:
   contents: read
 
 jobs:
-  terraform:
-    name: Deploy Terraform Infra
+  deploy:
+    name: Build, Push Image & Deploy Infra
     runs-on: ubuntu-latest
 
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: "us-east-1"
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      ECR_REPOSITORY: "test/wordpress"
+      IMAGE_TAG: ${{ github.run_number }}
       TF_VAR_db_username: ${{ secrets.TF_VAR_db_username }}
       TF_VAR_db_password: ${{ secrets.TF_VAR_db_password }}
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region $AWS_REGION
+          aws sts get-caller-identity  # Verify authentication
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      - name: Build and Tag Node.js Docker Image
+        run: |
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Push Node.js Image to ECR
+        run: |
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -42,9 +64,9 @@ jobs:
         working-directory: deployment/terraform
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -out=tfplan -var="image_url=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
         working-directory: deployment/terraform
 
-      - name: Terraform Apply
+      - name: Terraform Apply (Deploy Infra with Latest Image)
         run: terraform apply -auto-approve tfplan
         working-directory: deployment/terraform

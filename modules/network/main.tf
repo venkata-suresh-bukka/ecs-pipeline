@@ -130,7 +130,7 @@ resource "aws_security_group" "bastion_sg" {
 }
 resource "aws_key_pair" "bastion_key" {
   key_name   = "my-key-pair"  # The name of the key pair in AWS
-  public_key = file("my-key-pair.pub")  # Read the public key from the local file
+  public_key = var.bastion_ssh_key  # Read the public key from the local file
 }
 
 # ✅ Bastion Host in Public Subnet
