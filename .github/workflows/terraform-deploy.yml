@@ -54,20 +54,20 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: deployment/terraform
+        working-directory: deployment
 
       - name: Terraform Format
         run: terraform fmt -check
-        working-directory: deployment/terraform
+        working-directory: deployment
 
       - name: Terraform Validate
         run: terraform validate
-        working-directory: deployment/terraform
+        working-directory: deployment
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -var="image_url=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
-        working-directory: deployment/terraform
+        working-directory: deployment
 
       - name: Terraform Apply (Deploy Infra with Latest Image)
         run: terraform apply -auto-approve tfplan
-        working-directory: deployment/terraform
+        working-directory: deployment
