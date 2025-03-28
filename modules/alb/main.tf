@@ -80,29 +80,41 @@ resource "aws_lb_listener" "https_listener" {
     target_group_arn = aws_lb_target_group.wordpress_tg.arn
   }
 }
+resource "aws_lb_listener" "nodejs_listener" {
+  load_balancer_arn = aws_lb.wordpress_alb.arn
+  port              = 444
+  protocol          = "HTTP"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"  # AWS recommended SSL policy
+  certificate_arn   = var.acm_certificate_arn
 
-resource "aws_lb_listener_rule" "nodejs_route" {
-  listener_arn = aws_lb_listener.https_listener.arn
-  priority     = 201   # Ensure a unique priority
-
-  condition {  
-    path_pattern {
-      values = ["/api/*"]  # Correct way to define path-based routing
-    }
-  }
-
-  action {  
+  default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.nodejs_tg.arn
   }
 }
 
+resource "aws_security_group" "nodejs_sg" {
+  name_prefix = "nodejs-sg"
+  vpc_id      = var.vpc_id
 
+  ingress {
+    from_port       = 444
+    to_port         = 444
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]  # Ensure ALB can access Node.js
+  }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 
 resource "aws_lb_target_group" "nodejs_tg" {
   name        = "nodejs-tg"
-  port        = 3000
+  port        = 444
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
@@ -115,3 +127,4 @@ resource "aws_lb_target_group" "nodejs_tg" {
     unhealthy_threshold = 2
   }
 }
+
