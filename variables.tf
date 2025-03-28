@@ -44,6 +44,10 @@ variable "nodejs_image" {
   description = "ECR Image URL for the Node.js application"
   type        = string
 }
+variable "aws_account_id" {
+  description = "AWS account id"
+  type        = string
+}
 
 # variable "docker_secret_arn" {
   

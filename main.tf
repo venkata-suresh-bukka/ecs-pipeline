@@ -38,5 +38,5 @@ module "ecs" {
   alb_sg_id = module.alb.alb_sg_id
   nodejs_tg_arn  = module.alb.nodejs_tg_arn
   nodejs_image            = var.nodejs_image
- 
+  aws_account_id      = var.aws_account_id
 }
