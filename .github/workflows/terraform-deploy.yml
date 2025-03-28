@@ -77,4 +77,6 @@ jobs:
       #        -var="db_username=$TF_VAR_db_username" \
       #        -var="db_password=$TF_VAR_db_password" \
       #        -var="image_url=831926591252.dkr.ecr.us-east-1.amazonaws.com/test/wordpress:24"
-      #   working-directory: .
+      #   working-directory: . 
+
+      #dummy commit
