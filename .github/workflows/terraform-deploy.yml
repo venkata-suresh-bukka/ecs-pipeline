@@ -69,10 +69,10 @@ jobs:
              -var="db_username=$TF_VAR_DB_USERNAME" \
              -var="db_password=$TF_VAR_DB_PASSWORD"
 
-          echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}"
-          echo "TF_VAR_db_username=${{ secrets.TF_VAR_DB_USERNAME }}"
-          echo "TF_VAR_db_password=${{ secrets.TF_VAR_DB_PASSWORD }}"
-          echo "TF_VAR_bastion_ssh_key=${{ secrets.BASTION_SSH_PUBLIC_KEY }}"
+          echo "${{ secrets.AWS_ACCOUNT_ID }}"
+          echo "${{ secrets.TF_VAR_DB_USERNAME }}"
+          echo "${{ secrets.TF_VAR_DB_PASSWORD }}"
+          echo "${{ secrets.BASTION_SSH_PUBLIC_KEY }}"
           echo "ECR_REPOSITORY=$ECR_REPOSITORY"
           echo "IMAGE_TAG=$IMAGE_TAG"
           echo "DB Endpoint: $TF_VAR_db_endpoint"
