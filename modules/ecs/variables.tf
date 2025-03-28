@@ -49,7 +49,7 @@ variable "http_listener_arn" {
 variable "alb_sg_id" {}
 
 variable "nodejs_tg_arn" {}
-variable "image_url" {
+variable "nodejs_image" {
   description = "ECR Image URL for Node.js app"
   type        = string
 }

@@ -37,6 +37,6 @@ module "ecs" {
   http_listener_arn    = module.alb.http_listener_arn 
   alb_sg_id = module.alb.alb_sg_id
   nodejs_tg_arn  = module.alb.nodejs_tg_arn
-  image_url            = var.image_url
+  nodejs_image            = var.nodejs_image
  
 }

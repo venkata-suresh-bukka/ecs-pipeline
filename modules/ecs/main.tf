@@ -144,7 +144,7 @@ resource "aws_ecs_task_definition" "nodejs_task" {
   container_definitions = jsonencode([
     {
       name      = "nodejs-app"
-      image     = var.image_url
+      image     = var.nodejs_image
       cpu       = 256
       memory    = 512
       essential = true

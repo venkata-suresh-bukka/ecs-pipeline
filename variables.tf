@@ -40,7 +40,7 @@ variable "bastion_ssh_key" {
   description = "Public SSH key for the bastion host"
   type        = string
 }
-variable "image_url" {
+variable "nodejs_image" {
   description = "ECR Image URL for the Node.js application"
   type        = string
 }
