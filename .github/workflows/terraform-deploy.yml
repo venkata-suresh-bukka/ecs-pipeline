@@ -63,12 +63,9 @@ jobs:
           terraform -chdir=. plan -out=tfplan \
              -var="nodejs_image=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG" \
              -var="bastion_ssh_key=$TF_VAR_bastion_ssh_key" \
-             -var="db_username=$TF_VAR_db_username" \
-             -var="db_password=$TF_VAR_db_password" \
              -var="aws_account_id=$AWS_ACCOUNT_ID" \
-             -var="db_username=$TF_VAR_DB_USERNAME" \
-             -var="db_password=$TF_VAR_DB_PASSWORD" \
-             -var="db_endpoint=$TF_VAR_db_endpoint"
+             -var="db_username=$TF_VAR_db_username" \
+             -var="db_password=$TF_VAR_db_password" 
 
           echo "$db_username"
           echo "$db_password"
